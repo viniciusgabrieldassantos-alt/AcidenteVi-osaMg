@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>
+<title>Nossa música <3</title>
 <style>
   body {
     margin: 0;
@@ -43,7 +43,7 @@
   }
 
   .final {
-    font-size: 22px;
+    font-size: 36px;
     text-align: center;
     margin-top: 40px;
     opacity: 0;
@@ -138,6 +138,7 @@ const audio = document.getElementById('musica');
 const btn = document.getElementById('playBtn');
 const paragraphs = document.querySelectorAll('p');
 const images = document.querySelectorAll('img');
+const finalText = document.querySelector('.final');
 
 // Play music with fade-in
 btn.addEventListener('click', () => {
@@ -174,6 +175,12 @@ images.forEach((img, index) => {
     img.style.transform = 'translateY(0)';
   }, (index + 1) * 2000);
 });
+
+// Show final text after all paragraphs
+setTimeout(() => {
+  finalText.style.transition = 'opacity 3s';
+  finalText.style.opacity = 1;
+}, paragraphs.length * 1500 + 2000);
 
 // Generate floating hearts
 function createHeart(){
