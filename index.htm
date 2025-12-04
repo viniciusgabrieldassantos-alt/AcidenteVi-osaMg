@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Carta de Desculpas Animada</title>
+<style>
+  body {
+    margin: 0;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(-45deg, #ff6b6b, #ff9f43, #1dd1a1, #576574);
+    background-size: 400% 400%;
+    color: #fff;
+    overflow-x: hidden;
+    text-align: center;
+    animation: gradientBG 15s ease infinite;
+  }
+
+  @keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+
+  h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  .container {
+    max-width: 700px;
+    margin: auto;
+    text-align: left;
+    border-left: 3px solid #fff;
+    padding: 20px;
+  }
+
+  p {
+    font-size: 18px;
+    margin-bottom: 25px;
+    opacity: 0;
+  }
+
+  .final {
+    font-size: 22px;
+    text-align: center;
+    margin-top: 40px;
+    opacity: 0;
+  }
+
+  img {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 12px;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  #playBtn {
+    padding: 12px 25px;
+    font-size: 18px;
+    margin: 20px 0;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff6b6b;
+    color: #fff;
+  }
+
+  .hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    transform: rotate(45deg);
+    animation: floatHeart 6s linear infinite;
+  }
+
+  .heart::before,
+  .heart::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
+  }
+
+  .heart::before { top: -10px; left: 0; }
+  .heart::after { left: 10px; top: 0; }
+
+  @keyframes floatHeart {
+    0% {transform: translateY(0) rotate(45deg); opacity: 1;}
+    100% {transform: translateY(-800px) rotate(45deg); opacity: 0;}
+  }
+</style>
+</head>
+<body>
+
+<h2>Nossa música <3</h2>
+<button id="playBtn">▶️ Tocar música</button>
+<audio id="musica" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<h1>Por favor minha princesa, me perdoa:(</h1>
+<div class="container" id="textContainer">
+  <p>Eu sei que errei. Sei que poderia ter agido de outra forma, falado melhor, pensado mais, ouvido mais. Sei que algumas atitudes minhas machucaram você, e é exatamente isso que mais me dói. Porque você é alguém que eu nunca quis ferir.</p>
+  <img src="foto1.jpg" alt="Imagem 1" />
+
+  <p>Eu não quero que esse pedido de desculpas seja apenas palavras jogadas ao vento. Quero que você sinta que estou sendo verdadeiro, porque estou. Quero que você saiba que eu realmente parei, pensei, refleti e entendi onde falhei.</p>
+  <img src="foto2.jpg" alt="Imagem 2" />
+
+  <p>Eu reconheço meu erro e assumo completamente a responsabilidade pelo que fiz. Não estou aqui para justificar nada, apenas para dizer o quanto sinto e para mostrar que estou disposto a mudar, melhorar e fazer diferente daqui pra frente.</p>
+
+  <p>Sei que desculpas não apagam o que aconteceu, mas elas abrem o caminho para uma mudança. E eu quero essa mudança. Quero evoluir ao seu lado, aprender com os erros, melhorar como pessoa, como parceiro, como alguém que te admira profundamente.</p>
+  <img src="foto3.jpg" alt="Imagem 3" />
+
+  <p>Eu sinto sua falta. Sinto falta da sua voz, do seu jeito, do seu carinho, do brilho que você coloca até nas coisas simples. Sinto falta até das nossas conversas mais bobas, das nossas risadas espontâneas, das nossas pequenas rotinas que, quando somem, deixam um vazio enorme.</p>
+
+  <div class="final">Eu te ❤️</div>
+</div>
+
+<div class="hearts" id="heartsContainer"></div>
+
+<script>
+const audio = document.getElementById('musica');
+const btn = document.getElementById('playBtn');
+const paragraphs = document.querySelectorAll('p');
+const images = document.querySelectorAll('img');
+
+// Play music with fade-in
+btn.addEventListener('click', () => {
+  audio.volume = 0;
+  audio.play();
+  let vol = 0;
+  const fadeIn = setInterval(() => {
+    if(vol < 1){ vol += 0.01; audio.volume = vol; }
+    else clearInterval(fadeIn);
+  }, 50);
+  btn.style.display = 'none';
+});
+
+// Text typing/fade animation
+paragraphs.forEach((p, index) => {
+  setTimeout(() => {
+    let text = p.textContent;
+    p.textContent = '';
+    p.style.opacity = 1;
+    let i = 0;
+    const interval = setInterval(() => {
+      p.textContent += text[i];
+      i++;
+      if(i >= text.length) clearInterval(interval);
+    }, 15);
+  }, index * 1000);
+});
+
+// Fade in images
+images.forEach((img, index) => {
+  setTimeout(() => {
+    img.style.transition = 'opacity 2s, transform 2s';
+    img.style.opacity = 1;
+    img.style.transform = 'translateY(0)';
+  }, (index + 1) * 2000);
+});
+
+// Generate floating hearts
+function createHeart(){
+  const heart = document.createElement('div');
+  heart.classList.add('heart');
+  heart.style.left = Math.random() * 100 + '%';
+  heart.style.animationDuration = 4 + Math.random() * 3 + 's';
+  heart.style.width = 15 + Math.random() * 20 + 'px';
+  heart.style.height = heart.style.width;
+  document.getElementById('heartsContainer').appendChild(heart);
+  setTimeout(() => heart.remove(), 7000);
+}
+setInterval(createHeart, 500);
+</script>
+
+</body>
+</html>
